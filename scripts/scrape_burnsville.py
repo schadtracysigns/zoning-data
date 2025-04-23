@@ -6,18 +6,22 @@ import json
 ZONES = ["Retail", "Commercial", "Residential"]
 ZIP_CODE = "55306"
 
-example_rules = {
-    "max_height": "15 feet",
-    "max_area": "100 sq ft",
-    "illumination": "Internal and external allowed",
-    "permit_required": "Yes"
+accurate_rules = {
+    "max_height": "300 sq ft individual limit",
+    "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
+    "illumination": "Not allowed facing residential districts",
+    "permit_required": "Yes",
+    "raised_letters_required": "Yes, at least 1 inch from building wall",
+    "cabinet_signs_allowed": "Only as logo sign",
+    "painted_signs": "Not allowed",
+    "location_restriction": "Must be on tenant's occupied façade unless otherwise approved"
 }
 
 def generate_zoning_data():
     return {
         "burnsville": {
             ZIP_CODE: {
-                zone: example_rules.copy() for zone in ZONES
+                zone: accurate_rules.copy() for zone in ZONES
             }
         }
     }
