@@ -2,22 +2,34 @@
   "burnsville": {
     "55306": {
       "Retail": {
-        "max_height": "15 feet",
-        "max_area": "100 sq ft",
-        "illumination": "Internal and external allowed",
-        "permit_required": "Yes"
+        "max_height": "300 sq ft individual limit",
+        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
+        "illumination": "Not allowed facing residential districts",
+        "permit_required": "Yes",
+        "raised_letters_required": "Yes, at least 1 inch from building wall",
+        "cabinet_signs_allowed": "Only as logo sign",
+        "painted_signs": "Not allowed",
+        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
       },
       "Commercial": {
-        "max_height": "15 feet",
-        "max_area": "100 sq ft",
-        "illumination": "Internal and external allowed",
-        "permit_required": "Yes"
+        "max_height": "300 sq ft individual limit",
+        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
+        "illumination": "Not allowed facing residential districts",
+        "permit_required": "Yes",
+        "raised_letters_required": "Yes, at least 1 inch from building wall",
+        "cabinet_signs_allowed": "Only as logo sign",
+        "painted_signs": "Not allowed",
+        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
       },
       "Residential": {
-        "max_height": "15 feet",
-        "max_area": "100 sq ft",
-        "illumination": "Internal and external allowed",
-        "permit_required": "Yes"
+        "max_height": "300 sq ft individual limit",
+        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
+        "illumination": "Not allowed facing residential districts",
+        "permit_required": "Yes",
+        "raised_letters_required": "Yes, at least 1 inch from building wall",
+        "cabinet_signs_allowed": "Only as logo sign",
+        "painted_signs": "Not allowed",
+        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
       }
     }
   }
