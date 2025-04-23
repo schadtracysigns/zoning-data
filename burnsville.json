@@ -2,14 +2,19 @@
   "burnsville": {
     "55306": {
       "Retail": {
-        "Channel Letters": {
-          "Max Height": "24 in",
-          "Max Width": "96 in",
-          "Illumination": "Internally lit allowed",
-          "Permits Required": "Yes",
-          "Mounting": "Wall-mounted only",
-          "Updated": "2025-04-23"
-        }
+        "Channel Letters": { ... },
+        "Monument": { ... },
+        "Pylon": { ... }
+      },
+      "Commercial": {
+        "Channel Letters": { ... },
+        "Monument": { ... },
+        "Pylon": { ... }
+      },
+      "Residential": {
+        "Channel Letters": { ... },
+        "Monument": { ... },
+        "Pylon": { ... }
       }
     }
   }
