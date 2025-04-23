@@ -2,19 +2,37 @@
   "burnsville": {
     "55306": {
       "Retail": {
-        "Channel Letters": { ... },
-        "Monument": { ... },
-        "Pylon": { ... }
+        "Channel Letters": {
+          "Raw Text": "Channel Letters in Retail zone text pulled from ordinance site..."
+        },
+        "Monument": {
+          "Raw Text": "Monument signs in Retail zone text pulled from ordinance site..."
+        },
+        "Pylon": {
+          "Raw Text": "Pylon signs in Retail zone text pulled from ordinance site..."
+        }
       },
       "Commercial": {
-        "Channel Letters": { ... },
-        "Monument": { ... },
-        "Pylon": { ... }
+        "Channel Letters": {
+          "Raw Text": "Channel Letters in Commercial zone text pulled from ordinance site..."
+        },
+        "Monument": {
+          "Raw Text": "Monument signs in Commercial zone text pulled from ordinance site..."
+        },
+        "Pylon": {
+          "Raw Text": "Pylon signs in Commercial zone text pulled from ordinance site..."
+        }
       },
       "Residential": {
-        "Channel Letters": { ... },
-        "Monument": { ... },
-        "Pylon": { ... }
+        "Channel Letters": {
+          "Raw Text": "Channel Letters in Residential zone text pulled from ordinance site..."
+        },
+        "Monument": {
+          "Raw Text": "Monument signs in Residential zone text pulled from ordinance site..."
+        },
+        "Pylon": {
+          "Raw Text": "Pylon signs in Residential zone text pulled from ordinance site..."
+        }
       }
     }
   }
