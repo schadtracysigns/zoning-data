@@ -31,4 +31,5 @@ jobs:
           git config --global user.email "zoning.bot@protonmail.com"
           git add burnsville.json
           git commit -m "Auto-update Burnsville zoning data" || echo "No changes to commit"
-          git push https://$TOKEN@github.com/schadtracysigns/zoning-data.git HEAD:main
+git push --force-with-lease https://$TOKEN@github.com/schadtracysigns/zoning-data.git HEAD:main
+
