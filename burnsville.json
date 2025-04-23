@@ -1,0 +1,31 @@
+{
+  "burnsville": {
+    "55306": {
+      "Retail": {
+        "Monument": {
+          "Max Height": "10 ft",
+          "Max Width": "8 ft",
+          "Illumination": "Allowed, must be externally lit",
+          "Permits Required": "Yes, through City of Burnsville",
+          "Setback": "Minimum 10 ft from property line"
+        },
+        "Channel Letters": {
+          "Max Height": "24 in",
+          "Max Width": "96 in",
+          "Illumination": "Internally lit allowed",
+          "Permits Required": "Yes",
+          "Mounting": "Wall-mounted only"
+        }
+      },
+      "Commercial": {
+        "Pylon": {
+          "Max Height": "20 ft",
+          "Max Width": "12 ft",
+          "Illumination": "Allowed with restrictions",
+          "Permits Required": "Yes, zoning department",
+          "Placement": "Must be on commercial lot frontage"
+        }
+      }
+    }
+  }
+}
