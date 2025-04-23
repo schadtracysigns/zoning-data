@@ -1,2 +1,34 @@
-- name: Run scraper script
-  run: python scripts/scrape_burnsville.py
+name: Update Burnsville Zoning
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Every day at 8AM UTC
+  workflow_dispatch:
+
+jobs:
+  scrape-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Python packages
+        run: pip install requests beautifulsoup4
+
+      - name: Run scraper script
+        run: python scripts/scrape_burnsville.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "zoning-bot"
+          git config --global user.email "zoning.bot@protonmail.com"
+          git pull --rebase
+          git add burnsville.json
+          git commit -m "Auto-update Burnsville zoning data" || echo "No changes to commit"
+          git push
