@@ -2,34 +2,100 @@
   "burnsville": {
     "55306": {
       "Retail": {
-        "max_height": "300 sq ft individual limit",
-        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
-        "illumination": "Not allowed facing residential districts",
-        "permit_required": "Yes",
-        "raised_letters_required": "Yes, at least 1 inch from building wall",
-        "cabinet_signs_allowed": "Only as logo sign",
-        "painted_signs": "Not allowed",
-        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
+        "Channel Letters": {
+          "max_height": "24 inches",
+          "max_area": "50 sq ft per bay",
+          "illumination": "Allowed, not on residential-facing walls",
+          "permit_required": "Yes",
+          "letter_depth": "Minimum 1 inch raised",
+          "cabinet_signs_allowed": "Only as logo signs",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Only on walls of occupied tenant bay"
+        },
+        "Monument": {
+          "max_height": "6 feet",
+          "max_area": "48 sq ft per face",
+          "illumination": "External only",
+          "permit_required": "Yes",
+          "letter_depth": "Not applicable",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Must be within tenant frontage"
+        },
+        "Pylon": {
+          "max_height": "20 feet",
+          "max_area": "75 sq ft per face",
+          "illumination": "External allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Not applicable",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Must be at entrance or lot perimeter"
+        }
       },
       "Commercial": {
-        "max_height": "300 sq ft individual limit",
-        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
-        "illumination": "Not allowed facing residential districts",
-        "permit_required": "Yes",
-        "raised_letters_required": "Yes, at least 1 inch from building wall",
-        "cabinet_signs_allowed": "Only as logo sign",
-        "painted_signs": "Not allowed",
-        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
+        "Channel Letters": {
+          "max_height": "36 inches",
+          "max_area": "16% of facade or 100 sq ft min",
+          "illumination": "Backlit or halo-lit preferred",
+          "permit_required": "Yes",
+          "letter_depth": "Minimum 1 inch raised",
+          "cabinet_signs_allowed": "Only as logo signs",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Mounted on tenant\u2019s main wall only"
+        },
+        "Monument": {
+          "max_height": "8 feet",
+          "max_area": "64 sq ft per side",
+          "illumination": "Internal only",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "One per street frontage"
+        },
+        "Pylon": {
+          "max_height": "30 feet",
+          "max_area": "100 sq ft per face",
+          "illumination": "Internal or external allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Only one per parcel unless variance approved"
+        }
       },
       "Residential": {
-        "max_height": "300 sq ft individual limit",
-        "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
-        "illumination": "Not allowed facing residential districts",
-        "permit_required": "Yes",
-        "raised_letters_required": "Yes, at least 1 inch from building wall",
-        "cabinet_signs_allowed": "Only as logo sign",
-        "painted_signs": "Not allowed",
-        "location_restriction": "Must be on tenant's occupied fa\u00e7ade unless otherwise approved"
+        "Channel Letters": {
+          "max_height": "18 inches",
+          "max_area": "32 sq ft total",
+          "illumination": "Not allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Flat only",
+          "cabinet_signs_allowed": "Not allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Limited to amenity or office entrance walls"
+        },
+        "Monument": {
+          "max_height": "5 feet",
+          "max_area": "24 sq ft per side",
+          "illumination": "Non-illuminated only",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "At development entry only"
+        },
+        "Pylon": {
+          "max_height": "10 feet",
+          "max_area": "32 sq ft max",
+          "illumination": "Not allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Not applicable",
+          "cabinet_signs_allowed": "Not allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Only by city approval for multifamily or complex"
+        }
       }
     }
   }
