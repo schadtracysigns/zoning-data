@@ -1,9 +1,24 @@
 {
   "burnsville": {
     "55306": {
-      "Retail": {},
-      "Commercial": {},
-      "Residential": {}
+      "Retail": {
+        "max_height": "15 feet",
+        "max_area": "100 sq ft",
+        "illumination": "Internal and external allowed",
+        "permit_required": "Yes"
+      },
+      "Commercial": {
+        "max_height": "15 feet",
+        "max_area": "100 sq ft",
+        "illumination": "Internal and external allowed",
+        "permit_required": "Yes"
+      },
+      "Residential": {
+        "max_height": "15 feet",
+        "max_area": "100 sq ft",
+        "illumination": "Internal and external allowed",
+        "permit_required": "Yes"
+      }
     }
   }
 }
