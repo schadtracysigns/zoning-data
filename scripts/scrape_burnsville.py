@@ -3,32 +3,29 @@ from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 
-url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
-html_url = "https://burnsville.municipalcodeonline.com/book?type=ordinances&name=CHAPTER_10-30_SIGNS"
-
+url = "https://burnsville.municipalcodeonline.com/book?type=ordinances&name=CHAPTER_10-30_SIGNS"
 headers = {
     "User-Agent": "Mozilla/5.0"
 }
 
-# Request ordinance page HTML (not JS version)
-response = requests.get(html_url, headers=headers)
+response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, "html.parser")
 
-# Look for content blocks or paragraphs
-sections = soup.select("div.content") or soup.find_all("p")
-text_blocks = []
+content_div = soup.find("div", class_="content")
+paragraphs = []
 
-for section in sections:
-    for p in section.find_all("p"):
-        if p.text.strip():
-            text_blocks.append(p.text.strip())
+if content_div:
+    for p in content_div.find_all("p"):
+        text = p.get_text(strip=True)
+        if text:
+            paragraphs.append(text)
 
-# Generate simplified JSON structure
-burnsville_json = {
+# Save in JSON structure compatible with your app
+burnsville_data = {
     "burnsville": {
         "55306": {
             "General": {
-                "FullText": text_blocks,
+                "FullText": paragraphs,
                 "Source": url,
                 "LastUpdated": str(datetime.now().date())
             }
@@ -36,6 +33,5 @@ burnsville_json = {
     }
 }
 
-# Write output
 with open("burnsville.json", "w") as f:
-    json.dump(burnsville_json, f, indent=2)
+    json.dump(burnsville_data, f, indent=2)
