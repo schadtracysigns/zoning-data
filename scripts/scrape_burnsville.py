@@ -41,3 +41,4 @@ def scrape_burnsville_signs():
 
 if __name__ == "__main__":
     scrape_burnsville_signs()
+
