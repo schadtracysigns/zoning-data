@@ -18,10 +18,11 @@ jobs:
           pip install playwright
           playwright install
 
- - name: Install Python packages
+- name: Install Python packages
   run: |
     pip install requests beautifulsoup4
     pip install pymupdf
+
 
 
       - name: Run scraper script
