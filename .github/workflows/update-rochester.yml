@@ -20,8 +20,8 @@ jobs:
 
 - name: Install Python packages
   run: |
-    pip install requests beautifulsoup4
-    pip install pymupdf
+  pip install requests beautifulsoup4
+  pip install pymupdf
 
 
 
