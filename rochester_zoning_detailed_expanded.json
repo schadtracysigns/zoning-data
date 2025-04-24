@@ -1,0 +1,102 @@
+{
+  "rochester": {
+    "55901": {
+      "Retail": {
+        "Channel Letters": {
+          "max_height": "30 inches",
+          "max_area": "60 sq ft per bay",
+          "illumination": "Allowed with shielding",
+          "permit_required": "Yes",
+          "letter_depth": "Minimum 1 inch raised",
+          "cabinet_signs_allowed": "Only as logo signs",
+          "painted_signs": "Not allowed",
+          "location_restriction": "On tenant fa\u00e7ade only"
+        },
+        "Monument": {
+          "max_height": "7 feet",
+          "max_area": "50 sq ft per face",
+          "illumination": "External only",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "In landscaped front yard"
+        },
+        "Pylon": {
+          "max_height": "22 feet",
+          "max_area": "80 sq ft per face",
+          "illumination": "External only",
+          "permit_required": "Yes",
+          "letter_depth": "Not applicable",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "At site entrance"
+        }
+      },
+      "Commercial": {
+        "Channel Letters": {
+          "max_height": "40 inches",
+          "max_area": "18% of facade or 120 sq ft",
+          "illumination": "Backlit preferred",
+          "permit_required": "Yes",
+          "letter_depth": "Minimum 1 inch raised",
+          "cabinet_signs_allowed": "Only as logo signs",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Main tenant wall only"
+        },
+        "Monument": {
+          "max_height": "9 feet",
+          "max_area": "70 sq ft",
+          "illumination": "Internal only",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "One per frontage"
+        },
+        "Pylon": {
+          "max_height": "32 feet",
+          "max_area": "110 sq ft per face",
+          "illumination": "Internal or external",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Max one per parcel"
+        }
+      },
+      "Residential": {
+        "Channel Letters": {
+          "max_height": "20 inches",
+          "max_area": "30 sq ft max",
+          "illumination": "Not allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Flat only",
+          "cabinet_signs_allowed": "Not allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Community building wall only"
+        },
+        "Monument": {
+          "max_height": "6 feet",
+          "max_area": "30 sq ft per face",
+          "illumination": "Non-illuminated",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "At main entrance"
+        },
+        "Pylon": {
+          "max_height": "12 feet",
+          "max_area": "35 sq ft per face",
+          "illumination": "Not allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Not applicable",
+          "cabinet_signs_allowed": "Not allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Requires city approval"
+        }
+      }
+    }
+  }
+}
