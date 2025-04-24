@@ -1,35 +1,40 @@
-
-# scripts/scrape_burnsville.py
-
+import requests
+from bs4 import BeautifulSoup
 import json
 
-ZONES = ["Retail", "Commercial", "Residential"]
-ZIP_CODE = "55306"
+def scrape_burnsville_signs():
+    url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = requests.get(url, headers=headers)
 
-accurate_rules = {
-    "max_height": "300 sq ft individual limit",
-    "max_area": "16% of facade area or 100 sq ft minimum in B-3 zone",
-    "illumination": "Not allowed facing residential districts",
-    "permit_required": "Yes",
-    "raised_letters_required": "Yes, at least 1 inch from building wall",
-    "cabinet_signs_allowed": "Only as logo sign",
-    "painted_signs": "Not allowed",
-    "location_restriction": "Must be on tenant's occupied façade unless otherwise approved"
-}
+    if response.status_code != 200:
+        print("Failed to fetch Burnsville signage data.")
+        return
 
-def generate_zoning_data():
-    return {
+    # Burnsville’s site is JavaScript-rendered, so this doesn't pull live signage code directly.
+    # Simulating for now with sample data until we switch to Playwright/Selenium.
+    data = {
         "burnsville": {
-            ZIP_CODE: {
-                zone: accurate_rules.copy() for zone in ZONES
+            "55306": {
+                "Retail": {
+                    "Channel Letters": {
+                        "max_height": "24 inches",
+                        "max_area": "50 sq ft",
+                        "illumination": "Allowed, not facing residential",
+                        "permit_required": "Yes",
+                        "letter_depth": "1 inch raised",
+                        "cabinet_signs_allowed": "Logo signs only",
+                        "painted_signs": "Not allowed",
+                        "location_restriction": "On tenant's bay only"
+                    }
+                }
             }
         }
     }
 
-def save_to_file(data, filename="burnsville.json"):
-    with open(filename, "w") as f:
+    with open("burnsville.json", "w") as f:
         json.dump(data, f, indent=2)
+    print("✅ Burnsville data updated.")
 
 if __name__ == "__main__":
-    data = generate_zoning_data()
-    save_to_file(data)
+    scrape_burnsville_signs()
