@@ -47,9 +47,24 @@ def scrape_burnsville_signage():
         }
     }
 
-    with open("burnsville.json", "w") as f:
-        json.dump(data, f, indent=2)
-    print("burnsville.json updated")
+       with open("burnsville.json", "w") as f:
+            json.dump(result, f, indent=2)
+
+        # Update combined file
+        try:
+            with open("zoning_combined.json", "r") as f:
+                combined = json.load(f)
+        except FileNotFoundError:
+            combined = {}
+
+        combined["burnsville"] = result["burnsville"]
+
+        with open("zoning_combined.json", "w") as f:
+            json.dump(combined, f, indent=2)
+
+        print("✅ Final Burnsville data captured and saved.")
+
+        browser.close()
 
 if __name__ == "__main__":
-    scrape_burnsville_signage()
+    scrape_burnsville_signs()
