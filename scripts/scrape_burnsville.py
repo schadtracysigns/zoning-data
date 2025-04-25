@@ -1,24 +1,28 @@
 import json
 from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
 
 def scrape_burnsville_signs():
+    url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
+
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
-        page.goto("https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS")
+        page.goto(url)
+        page.wait_for_timeout(10000)  # wait for JS to load
 
-        # Wait up to 15s for visible ordinance content
-        page.wait_for_selector("div.section h3", timeout=15000)
-
-        # Extract data directly from visible page elements
-        titles = page.locator("div.section h3").all_inner_texts()
-        bodies = page.locator("div.section").all_inner_texts()
+        # Get content after JS renders
+        html = page.content()
+        soup = BeautifulSoup(html, "html.parser")
 
         zoning_data = {}
-        for i in range(len(titles)):
-            heading = titles[i].strip()
-            body = bodies[i].strip()
-            zoning_data[heading] = body
+        sections = soup.find_all("div", class_="section")
+        for section in sections:
+            h3 = section.find("h3")
+            if h3:
+                heading = h3.get_text(strip=True)
+                content = section.get_text(separator="\n", strip=True)
+                zoning_data[heading] = content
 
         result = {
             "burnsville": {
@@ -42,7 +46,7 @@ def scrape_burnsville_signs():
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ LIVE ordinance data pulled successfully.")
+        print("✅ JSON updated successfully.")
 
         browser.close()
 
