@@ -1,0 +1,34 @@
+{
+  "burnsville": {
+    "55306": {
+      "Retail": {
+        "Channel Letters": {
+          "max_height": "24 inches",
+          "max_area": "50 sq ft",
+          "illumination": "Allowed, not facing residential",
+          "permit_required": "Yes",
+          "letter_depth": "1 inch raised",
+          "cabinet_signs_allowed": "Logo signs only",
+          "painted_signs": "Not allowed",
+          "location_restriction": "On tenant's bay only"
+        }
+      }
+    }
+  },
+  "rochester": {
+    "55901": {
+      "Retail": {
+        "Channel Letters": {
+          "max_height": "32 inches",
+          "max_area": "20% of wall face",
+          "illumination": "Allowed with conditions",
+          "permit_required": "Yes",
+          "letter_depth": "1 inch",
+          "cabinet_signs_allowed": "Yes",
+          "painted_signs": "No",
+          "location_restriction": "On tenant's wall"
+        }
+      }
+    }
+  }
+}
