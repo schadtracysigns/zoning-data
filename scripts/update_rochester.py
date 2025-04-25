@@ -8,10 +8,14 @@ JSON_PATH = "rochester.json"
 
 def download_rochester_pdf():
     print("📥 Downloading Rochester sign code PDF...")
-    response = requests.get(PDF_URL)
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+    }
+    response = requests.get(PDF_URL, headers=headers)
     response.raise_for_status()
     with open(PDF_PATH, "wb") as f:
         f.write(response.content)
+
 
 def extract_signage_data(pdf_path):
     doc = fitz.open(pdf_path)
