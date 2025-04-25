@@ -19,12 +19,7 @@ jobs:
           playwright install
 
       - name: Install Python packages
-        run: |
-          pip install requests beautifulsoup4
-          pip install pymupdf
-
-
-
+        run: pip install requests beautifulsoup4
 
       - name: Run scraper script
         run: python scripts/update_rochester.py
