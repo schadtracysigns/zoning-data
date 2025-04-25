@@ -11,48 +11,42 @@ def scrape_burnsville_signs():
         page.goto(url)
         page.wait_for_timeout(5000)
 
-        # Grab the raw HTML
-        content = page.content()
-        soup = BeautifulSoup(content, "html.parser")
+        # Extract dynamic HTML content
+        soup = BeautifulSoup(page.content(), "html.parser")
 
-        # Try to find the ordinance section text
-        sections = soup.find_all("div", class_="section")  # or adjust if needed
-        burnsville_data = {}
+        sections = soup.find_all("div", class_="section")
+        zoning_data = {}
 
         for section in sections:
             header = section.find("h3")
             if header:
-                heading = header.get_text(strip=True)
-                body = section.get_text(separator="\n", strip=True)
+                title = header.get_text(strip=True)
+                content = section.get_text(separator="\n", strip=True)
+                zoning_data[title] = content
 
-                burnsville_data[heading] = body
-
-        # Format for app
-        zoning_output = {
+        formatted = {
             "burnsville": {
                 "55306": {
-                    "General Sign Ordinance": burnsville_data
+                    "General Sign Ordinance": zoning_data
                 }
             }
         }
 
-        # Save to burnsville.json
         with open("burnsville.json", "w") as f:
-            json.dump(zoning_output, f, indent=2)
+            json.dump(formatted, f, indent=2)
 
-        # Merge with zoning_combined.json
         try:
             with open("zoning_combined.json", "r") as f:
                 combined = json.load(f)
         except FileNotFoundError:
             combined = {}
 
-        combined["burnsville"] = zoning_output["burnsville"]
+        combined["burnsville"] = formatted["burnsville"]
 
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ Burnsville zoning data scraped and combined successfully.")
+        print("✅ Burnsville zoning updated.")
 
         browser.close()
 
