@@ -13,11 +13,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install Playwright and dependencies
-        run: |
-          pip install playwright
-          playwright install
-
       - name: Install Python packages
         run: |
           pip install requests beautifulsoup4
