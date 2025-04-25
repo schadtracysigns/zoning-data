@@ -1,6 +1,5 @@
 import json
 from playwright.sync_api import sync_playwright
-from bs4 import BeautifulSoup
 
 def scrape_burnsville_signs():
     url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
@@ -9,24 +8,24 @@ def scrape_burnsville_signs():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
+        page.wait_for_timeout(8000)  # Wait for JavaScript to render fully
 
-        # Wait for JS content to fully render
-        page.wait_for_timeout(10000)
-
-        html = page.content()
-        soup = BeautifulSoup(html, "html.parser")
+        # Use Playwright's DOM traversal instead of BeautifulSoup
+        sections = page.locator("div.section")
+        count = sections.count()
 
         zoning_data = {}
-        sections = soup.find_all("div", class_="section")
 
-        for section in sections:
-            h3 = section.find("h3")
-            if h3:
-                heading = h3.get_text(strip=True)
-                content = section.get_text(separator="\n", strip=True)
-                zoning_data[heading] = content
+        for i in range(count):
+            section = sections.nth(i)
+            try:
+                title = section.locator("h3").inner_text()
+                content = section.inner_text()
+                zoning_data[title.strip()] = content.strip()
+            except:
+                continue
 
-        burnsville_data = {
+        result = {
             "burnsville": {
                 "55306": {
                     "General Sign Ordinance": zoning_data
@@ -34,23 +33,21 @@ def scrape_burnsville_signs():
             }
         }
 
-        # Write to burnsville.json
         with open("burnsville.json", "w") as f:
-            json.dump(burnsville_data, f, indent=2)
+            json.dump(result, f, indent=2)
 
-        # Merge with combined zoning data
         try:
             with open("zoning_combined.json", "r") as f:
                 combined = json.load(f)
         except FileNotFoundError:
             combined = {}
 
-        combined["burnsville"] = burnsville_data["burnsville"]
+        combined["burnsville"] = result["burnsville"]
 
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ LIVE Burnsville data pulled and saved.")
+        print("✅ Burnsville data scraped from live page.")
 
         browser.close()
 
