@@ -1,7 +1,15 @@
 {
   "burnsville": {
     "55306": {
-      "General Sign Ordinance": {}
+      "General Sign Ordinance": {
+        "Document Creator:": "\u00d7\nDocument Creator:",
+        "Pass Document": "\u00d7\nPass Document",
+        "Representatives": "\u00d7\nRepresentatives",
+        "Edit Proposal:": "\u00d7\nEdit Proposal:",
+        "Votes": "\u00d7\nVotes",
+        "Changes": "\u00d7\nChanges",
+        "Session Timeout...": "\u00d7\nSession Timeout..."
+      }
     }
   },
   "rochester": {
