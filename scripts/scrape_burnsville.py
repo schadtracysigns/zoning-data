@@ -9,27 +9,31 @@ def scrape_burnsville_signs():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
-        page.wait_for_timeout(8000)  # Give JS time to render
+        page.wait_for_timeout(8000)
 
-        html = page.content()
-        soup = BeautifulSoup(html, "html.parser")
+        # Ensure ordinance content is visible
+        page_content = page.content()
+        soup = BeautifulSoup(page_content, "html.parser")
 
-        # Look for readable content
-        content_container = soup.find("div", class_="reader-container") or soup
-        sections = content_container.find_all("div", recursive=True)
+        ordinance_data = {}
 
-        zoning_data = {}
-        for section in sections:
-            header = section.find("h3")
-            if header:
-                title = header.get_text(strip=True)
-                text = section.get_text(separator="\n", strip=True)
-                zoning_data[title] = text
+        # Look for ordinance content container
+        ordinance_sections = soup.select("div.section")
+
+        for section in ordinance_sections:
+            if "Document Creator" in section.text:
+                continue  # Skip junk content
+
+            heading = section.find("h3")
+            if heading:
+                title = heading.get_text(strip=True)
+                content = section.get_text(separator="\n", strip=True)
+                ordinance_data[title] = content
 
         result = {
             "burnsville": {
                 "55306": {
-                    "General Sign Ordinance": zoning_data
+                    "General Sign Ordinance": ordinance_data
                 }
             }
         }
@@ -37,7 +41,6 @@ def scrape_burnsville_signs():
         with open("burnsville.json", "w") as f:
             json.dump(result, f, indent=2)
 
-        # Update combined
         try:
             with open("zoning_combined.json", "r") as f:
                 combined = json.load(f)
@@ -49,7 +52,7 @@ def scrape_burnsville_signs():
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ Burnsville zoning data updated.")
+        print("✅ Clean Burnsville zoning data saved.")
         browser.close()
 
 if __name__ == "__main__":
