@@ -1,42 +1,127 @@
-import json
-from playwright.sync_api import sync_playwright
-from bs4 import BeautifulSoup
+// SignageApp.swift
 
-def scrape_burnsville_signs():
-    url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
+import SwiftUI
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.goto(url)
-        page.wait_for_timeout(5000)
+@main
+struct SignageApp: App {
+    var body: some Scene {
+        WindowGroup {
+            SignageHomeView()
+        }
+    }
+}
 
-        html = page.content()
-        soup = BeautifulSoup(html, "html.parser")
+struct SignageHomeView: View {
+    @State private var zipCode: String = ""
+    @State private var selectedZone: String = "Retail"
+    @State private var selectedSignType: String = "Monument"
+    @State private var zoningInfo: [String: String] = [:]
+    @State private var errorMessage: String? = nil
 
-        zoning_data = {}
-        sections = soup.find_all("div", class_="section")
+    let zones = ["Retail", "Commercial", "Residential"]
+    let signTypes = ["Channel Letters", "Monument", "Pylon"]
 
-        for section in sections:
-            header = section.find("h3")
-            if header:
-                heading = header.get_text(strip=True)
-                content = section.get_text(separator="\n", strip=True)
-                zoning_data[heading] = content
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 20) {
+                    Image("schadtracy_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 60)
 
-        result = {
-            "burnsville": {
-                "55306": {
-                    "General Sign Ordinance": zoning_data
+                    Text("Welcome to the Schad Tracy Signage Zoning App")
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+
+                    Text("Signage Zoning Finder")
+                        .font(.title2)
+                        .bold()
+
+                    TextField("Enter ZIP Code", text: $zipCode)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.numberPad)
+                        .padding(.horizontal)
+
+                    Button("Check Zoning") {
+                        fetchZoningData()
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+
+                    Picker("Zone", selection: $selectedZone) {
+                        ForEach(zones, id: \.\self) { Text($0) }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+
+                    Picker("Sign Type", selection: $selectedSignType) {
+                        ForEach(signTypes, id: \.\self) { Text($0) }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .padding(.horizontal)
+
+                    if !zoningInfo.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(zoningInfo.sorted(by: >), id: \.key) { key, value in
+                                VStack(alignment: .leading) {
+                                    Text("\(key):")
+                                        .font(.subheadline)
+                                        .bold()
+                                    Text(value)
+                                        .font(.footnote)
+                                }
+                            }
+                        }
+                        .padding()
+                    } else if let error = errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
                 }
+                .padding()
             }
+            .navigationTitle("Zoning Lookup")
+        }
+    }
+
+    func fetchZoningData() {
+        guard let url = URL(string: "https://schadtracysigns.github.io/zoning-data/burnsville.json") else {
+            errorMessage = "Invalid URL"
+            return
         }
 
-        with open("burnsville.json", "w") as f:
-            json.dump(result, f, indent=2)
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self.errorMessage = "Request error: \(error.localizedDescription)"
+                    return
+                }
 
-        print("✅ OLD WORKING Burnsville scraper finished.")
-        browser.close()
+                guard let data = data else {
+                    self.errorMessage = "No data received."
+                    return
+                }
 
-if __name__ == "__main__":
-    scrape_burnsville_signs()
+                do {
+                    let decoded = try JSONDecoder().decode([String: [String: [String: [String: [String: String]]]]].self, from: data)
+                    if let city = decoded["burnsville"]?["55306"]?[selectedZone]?[selectedSignType] {
+                        self.zoningInfo = city
+                        self.errorMessage = nil
+                    } else {
+                        self.zoningInfo = [:]
+                        self.errorMessage = "No zoning info found for the selected options."
+                    }
+                } catch {
+                    self.errorMessage = "Decoding error: \(error.localizedDescription)"
+                }
+            }
+        }.resume()
+    }
+}
