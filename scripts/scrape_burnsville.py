@@ -26,4 +26,31 @@ def scrape_burnsville_signs():
                 text = section.get_text(separator="\n", strip=True)
                 zoning_data[title] = text
 
-        result =
+        result = {
+            "burnsville": {
+                "55306": {
+                    "General Sign Ordinance": zoning_data
+                }
+            }
+        }
+
+        with open("burnsville.json", "w") as f:
+            json.dump(result, f, indent=2)
+
+        # Update combined
+        try:
+            with open("zoning_combined.json", "r") as f:
+                combined = json.load(f)
+        except FileNotFoundError:
+            combined = {}
+
+        combined["burnsville"] = result["burnsville"]
+
+        with open("zoning_combined.json", "w") as f:
+            json.dump(combined, f, indent=2)
+
+        print("✅ Burnsville zoning data updated.")
+        browser.close()
+
+if __name__ == "__main__":
+    scrape_burnsville_signs()
