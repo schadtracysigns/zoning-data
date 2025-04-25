@@ -27,10 +27,11 @@ jobs:
       - name: Run Burnsville scraper
         run: python scripts/scrape_burnsville.py
 
-      - name: Commit and push if changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add burnsville.json zoning_combined.json
-          git commit -m "Update Burnsville zoning data [CI]" || echo "No changes to commit"
-          git push
+     - name: Commit and push if changes
+  run: |
+    git config user.name "github-actions[bot]"
+    git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    git pull --rebase origin main
+    git add burnsville.json zoning_combined.json
+    git commit -m "Update Burnsville zoning data [CI]" || echo "No changes to commit"
+    git push
