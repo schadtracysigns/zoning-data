@@ -1,7 +1,18 @@
 {
   "burnsville": {
     "55306": {
-      "General Sign Ordinance": {}
+      "Retail": {
+        "Channel Letters": {
+          "max_height": "24 inches",
+          "max_area": "50 sq ft",
+          "illumination": "Allowed, not facing residential",
+          "permit_required": "Yes",
+          "letter_depth": "1 inch raised",
+          "cabinet_signs_allowed": "Logo signs only",
+          "painted_signs": "Not allowed",
+          "location_restriction": "On tenant's bay only"
+        }
+      }
     }
   }
 }
