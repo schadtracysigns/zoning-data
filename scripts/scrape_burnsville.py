@@ -9,31 +9,25 @@ def scrape_burnsville_signs():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
-        page.wait_for_timeout(8000)
+        page.wait_for_timeout(5000)
 
-        # Ensure ordinance content is visible
-        page_content = page.content()
-        soup = BeautifulSoup(page_content, "html.parser")
+        html = page.content()
+        soup = BeautifulSoup(html, "html.parser")
 
-        ordinance_data = {}
+        zoning_data = {}
+        sections = soup.find_all("div", class_="section")
 
-        # Look for ordinance content container
-        ordinance_sections = soup.select("div.section")
-
-        for section in ordinance_sections:
-            if "Document Creator" in section.text:
-                continue  # Skip junk content
-
-            heading = section.find("h3")
-            if heading:
-                title = heading.get_text(strip=True)
+        for section in sections:
+            header = section.find("h3")
+            if header:
+                heading = header.get_text(strip=True)
                 content = section.get_text(separator="\n", strip=True)
-                ordinance_data[title] = content
+                zoning_data[heading] = content
 
         result = {
             "burnsville": {
                 "55306": {
-                    "General Sign Ordinance": ordinance_data
+                    "General Sign Ordinance": zoning_data
                 }
             }
         }
@@ -52,7 +46,8 @@ def scrape_burnsville_signs():
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ Clean Burnsville zoning data saved.")
+        print("✅ Burnsville zoning data saved.")
+
         browser.close()
 
 if __name__ == "__main__":
