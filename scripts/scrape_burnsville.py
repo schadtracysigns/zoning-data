@@ -1,68 +1,56 @@
-
-import requests
-from bs4 import BeautifulSoup
 import json
+from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
 
-def scrape_burnsville_signage():
+def scrape_burnsville_signs():
     url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(url, headers=headers)
 
-    if response.status_code != 200:
-        print("Failed to retrieve data")
-        return
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        page.goto(url)
 
-    # NOTE: This page is rendered with JavaScript, so BeautifulSoup alone won't work.
-    # You'll need Selenium or Playwright for a real scrape of the dynamic content.
-    # Below is the structure of how you would process the static content (if it were available directly).
+        # Wait for JS content to fully render
+        page.wait_for_timeout(10000)
 
-    # soup = BeautifulSoup(response.text, 'html.parser')
-    # placeholder_content = soup.find_all(...)  # <- you'd locate the correct sections/tables here
+        html = page.content()
+        soup = BeautifulSoup(html, "html.parser")
 
-    # For now, mock out representative data:
-    data = {
-        "burnsville": {
-            "55306": {
-                "Commercial": {
-                    "Channel Letters": {
-                        "max_height": "36 inches",
-                        "max_area": "16% of facade or 100 sq ft minimum",
-                        "illumination": "Backlit or halo-lit preferred",
-                        "permit_required": "Yes"
-                    },
-                    "Monument": {
-                        "max_height": "8 feet",
-                        "max_area": "64 sq ft per face",
-                        "illumination": "Internal only",
-                        "permit_required": "Yes"
-                    },
-                    "Pylon": {
-                        "max_height": "30 feet",
-                        "max_area": "100 sq ft",
-                        "illumination": "Internal and external allowed",
-                        "permit_required": "Yes"
-                    }
+        zoning_data = {}
+        sections = soup.find_all("div", class_="section")
+
+        for section in sections:
+            h3 = section.find("h3")
+            if h3:
+                heading = h3.get_text(strip=True)
+                content = section.get_text(separator="\n", strip=True)
+                zoning_data[heading] = content
+
+        burnsville_data = {
+            "burnsville": {
+                "55306": {
+                    "General Sign Ordinance": zoning_data
                 }
             }
         }
-    }
 
-       with open("burnsville.json", "w") as f:
-            json.dump(result, f, indent=2)
+        # Write to burnsville.json
+        with open("burnsville.json", "w") as f:
+            json.dump(burnsville_data, f, indent=2)
 
-        # Update combined file
+        # Merge with combined zoning data
         try:
             with open("zoning_combined.json", "r") as f:
                 combined = json.load(f)
         except FileNotFoundError:
             combined = {}
 
-        combined["burnsville"] = result["burnsville"]
+        combined["burnsville"] = burnsville_data["burnsville"]
 
         with open("zoning_combined.json", "w") as f:
             json.dump(combined, f, indent=2)
 
-        print("✅ Final Burnsville data captured and saved.")
+        print("✅ LIVE Burnsville data pulled and saved.")
 
         browser.close()
 
