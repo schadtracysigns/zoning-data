@@ -9,7 +9,9 @@ def scrape_burnsville_signs():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
-        page.wait_for_timeout(5000)
+
+        # Wait 10 seconds to ensure ordinance content is loaded
+        page.wait_for_timeout(10000)
 
         html = page.content()
         soup = BeautifulSoup(html, "html.parser")
@@ -18,11 +20,12 @@ def scrape_burnsville_signs():
         sections = soup.find_all("div", class_="section")
 
         for section in sections:
-            header = section.find("h3")
-            if header:
-                heading = header.get_text(strip=True)
+            h3 = section.find("h3")
+            if h3:
+                title = h3.get_text(strip=True)
                 content = section.get_text(separator="\n", strip=True)
-                zoning_data[heading] = content
+                if not any(x in content for x in ["Session Timeout", "Document Creator", "Votes"]):
+                    zoning_data[title] = content
 
         result = {
             "burnsville": {
