@@ -1,37 +1,23 @@
 import json
-import requests
 import fitz  # PyMuPDF
-from playwright.sync_api import sync_playwright
+import requests
 
-def download_rochester_pdf(pdf_path):
-    url = "https://www.rochestermn.gov/departments/community-development/unified-development-code"
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-        page.goto(url)
-        page.wait_for_timeout(3000)
+PDF_URL = "https://www.rochestermn.gov/home/showpublisheddocument/36333/638695059544470000"
+PDF_PATH = "roch_udc.pdf"
+JSON_PATH = "rochester.json"
 
-        # Find and follow the UDC PDF link
-        pdf_link = page.locator("a", has_text="Unified Development Code (UDC)").first
-        pdf_url = pdf_link.get_attribute("href")
-
-        if not pdf_url:
-            raise Exception("PDF URL not found")
-
-        if not pdf_url.startswith("http"):
-            pdf_url = f"https://www.rochestermn.gov{pdf_url}"
-
-        response = requests.get(pdf_url)
-        with open(pdf_path, "wb") as f:
-            f.write(response.content)
-
-        browser.close()
+def download_rochester_pdf():
+    print("📥 Downloading Rochester sign code PDF...")
+    response = requests.get(PDF_URL)
+    response.raise_for_status()
+    with open(PDF_PATH, "wb") as f:
+        f.write(response.content)
 
 def extract_signage_data(pdf_path):
     doc = fitz.open(pdf_path)
     text = "".join(page.get_text() for page in doc)
 
-    # Simulated values - Replace with real parsed logic later
+    # Simulated data; replace with real parsed logic
     return {
         "rochester": {
             "55901": {
@@ -72,13 +58,8 @@ def extract_signage_data(pdf_path):
     }
 
 if __name__ == "__main__":
-    pdf_file = "roch_udc.pdf"
-    json_output = "rochester.json"
-
-    download_rochester_pdf(pdf_file)
-    data = extract_signage_data(pdf_file)
-
-    with open(json_output, "w") as f:
+    download_rochester_pdf()
+    data = extract_signage_data(PDF_PATH)
+    with open(JSON_PATH, "w") as f:
         json.dump(data, f, indent=2)
-
-    print("✅ Rochester zoning data updated.")
+    print("✅ Rochester zoning data saved.")
