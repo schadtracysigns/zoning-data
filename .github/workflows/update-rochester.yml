@@ -15,11 +15,10 @@ jobs:
 
       - name: Install Python packages
         run: |
-          pip install requests beautifulsoup4
-          pip install pymupdf
+          pip install requests beautifulsoup4 pymupdf
 
       - name: Run scraper script
-        run: python scripts/update_rochester.py
+        run: python scripts/scrape_rochester.py
 
       - name: Commit and push if changed
         env:
@@ -30,5 +29,5 @@ jobs:
           git fetch origin main
           git reset --hard origin/main
           git add zoning_combined.json
-          git commit -m "Auto-update Rochester zoning data" || echo "No changes to commit"
+          git commit -m "Auto-update zoning_combined.json with Rochester data" || echo "No changes to commit"
           git push https://${{ secrets.GH_ACTIONS_TOKEN }}@github.com/schadtracysigns/zoning-data.git HEAD:main
