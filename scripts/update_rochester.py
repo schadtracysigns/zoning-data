@@ -9,12 +9,11 @@ def download_and_parse_rochester_pdf():
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        raise Exception("Failed to download Rochester PDF.")
+        raise Exception(f"❌ Failed to download PDF: Status {response.status_code}")
 
-    pdf_stream = io.BytesIO(response.content)
-    reader = PyPDF2.PdfReader(pdf_stream)
-
+    reader = PyPDF2.PdfReader(io.BytesIO(response.content))
     full_text = ""
+
     for page in reader.pages:
         extracted = page.extract_text()
         if extracted:
@@ -33,6 +32,7 @@ def download_and_parse_rochester_pdf():
     with open("rochester.json", "w") as f:
         json.dump(result, f, indent=2)
 
+    # Update combined
     try:
         with open("zoning_combined.json", "r") as f:
             combined = json.load(f)
