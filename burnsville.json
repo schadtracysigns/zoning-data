@@ -1,7 +1,26 @@
 {
   "burnsville": {
     "55306": {
-      "General Sign Ordinance": {}
+      "Commercial": {
+        "Channel Letters": {
+          "max_height": "36 inches",
+          "max_area": "16% of facade or 100 sq ft minimum",
+          "illumination": "Backlit or halo-lit preferred",
+          "permit_required": "Yes"
+        },
+        "Monument": {
+          "max_height": "8 feet",
+          "max_area": "64 sq ft per face",
+          "illumination": "Internal only",
+          "permit_required": "Yes"
+        },
+        "Pylon": {
+          "max_height": "30 feet",
+          "max_area": "100 sq ft",
+          "illumination": "Internal and external allowed",
+          "permit_required": "Yes"
+        }
+      }
     }
   }
 }
