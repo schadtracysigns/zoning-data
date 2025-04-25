@@ -1,69 +1,50 @@
 import json
-import fitz  # PyMuPDF
 import requests
+import PyPDF2
+import io
+import re
 
-PDF_URL = "https://www.rochestermn.gov/home/showpublisheddocument/36333/638695059544470000"
-PDF_PATH = "roch_udc.pdf"
-JSON_PATH = "rochester.json"
+def download_and_parse_rochester_pdf():
+    pdf_url = "https://www.rochestermn.gov/home/showpublisheddocument/32714/637489098228330000"
+    response = requests.get(pdf_url)
 
-def download_rochester_pdf():
-    print("📥 Downloading Rochester sign code PDF...")
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
-    }
-    response = requests.get(PDF_URL, headers=headers)
-    response.raise_for_status()
-    with open(PDF_PATH, "wb") as f:
-        f.write(response.content)
+    if response.status_code != 200:
+        raise Exception("Failed to download Rochester PDF.")
 
+    reader = PyPDF2.PdfReader(io.BytesIO(response.content))
+    full_text = ""
 
-def extract_signage_data(pdf_path):
-    doc = fitz.open(pdf_path)
-    text = "".join(page.get_text() for page in doc)
+    for page in reader.pages:
+        full_text += page.extract_text() + "\n"
 
-    # Simulated data; replace with real parsed logic
-    return {
+    # Basic formatting (you can add more parsing here)
+    rochester_data = {
         "rochester": {
-            "55901": {
-                "Retail": {
-                    "Channel Letters": {
-                        "max_height": "32 inches",
-                        "max_area": "20% of wall face",
-                        "illumination": "Allowed with conditions",
-                        "permit_required": "Yes",
-                        "letter_depth": "1 inch",
-                        "cabinet_signs_allowed": "Yes",
-                        "painted_signs": "No",
-                        "location_restriction": "On tenant's wall"
-                    },
-                    "Monument": {
-                        "max_height": "6 feet",
-                        "max_area": "64 sq ft",
-                        "illumination": "Internal or external",
-                        "permit_required": "Yes",
-                        "letter_depth": "Optional",
-                        "cabinet_signs_allowed": "Yes",
-                        "painted_signs": "Allowed",
-                        "location_restriction": "Front yard near entrance"
-                    },
-                    "Pylon": {
-                        "max_height": "20 feet",
-                        "max_area": "100 sq ft",
-                        "illumination": "Internal only",
-                        "permit_required": "Yes",
-                        "letter_depth": "Optional",
-                        "cabinet_signs_allowed": "Yes",
-                        "painted_signs": "No",
-                        "location_restriction": "One per lot"
-                    }
+            "55902": {
+                "General Sign Ordinance": {
+                    "raw_text": full_text.strip()
                 }
             }
         }
     }
 
+    # Save to rochester.json
+    with open("rochester.json", "w") as f:
+        json.dump(rochester_data, f, indent=2)
+
+    # Merge into zoning_combined.json
+    try:
+        with open("zoning_combined.json", "r") as f:
+            combined = json.load(f)
+    except FileNotFoundError:
+        combined = {}
+
+    combined["rochester"] = rochester_data["rochester"]
+
+    with open("zoning_combined.json", "w") as f:
+        json.dump(combined, f, indent=2)
+
+    print("✅ Rochester zoning data scraped and combined successfully.")
+
 if __name__ == "__main__":
-    download_rochester_pdf()
-    data = extract_signage_data(PDF_PATH)
-    with open(JSON_PATH, "w") as f:
-        json.dump(data, f, indent=2)
-    print("✅ Rochester zoning data saved.")
+    download_and_parse_rochester_pdf()
