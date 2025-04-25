@@ -1,33 +1,35 @@
-name: Update Rochester Zoning
+name: Update Rochester Zoning Data
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Every day at 8AM UTC
+    - cron: '30 6 * * *'  # Runs daily at 6:30 AM UTC
   workflow_dispatch:
 
 jobs:
-  scrape-and-commit:
+  update-zoning:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Install Python packages
-        run: |
-          pip install requests beautifulsoup4 pymupdf
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-      - name: Run scraper script
-        run: python scripts/scrape_rochester.py
-
-      - name: Commit and push if changed
-        env:
-          TOKEN: ${{ secrets.GH_ACTIONS_TOKEN }}
+      - name: Install dependencies
         run: |
-          git config --global user.name "zoning-bot"
-          git config --global user.email "zoning_bot@protonmail.com"
-          git fetch origin main
-          git reset --hard origin/main
-          git add zoning_combined.json
-          git commit -m "Auto-update zoning_combined.json with Rochester data" || echo "No changes to commit"
-          git push https://${{ secrets.GH_ACTIONS_TOKEN }}@github.com/schadtracysigns/zoning-data.git HEAD:main
+          python -m pip install --upgrade pip
+          pip install PyPDF2
+
+      - name: Run Rochester scraper
+        run: python scripts/update_rochester.py
+
+      - name: Commit and push if changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add rochester.json zoning_combined.json
+          git commit -m "Update Rochester zoning data [CI]" || echo "No changes to commit"
+          git push
