@@ -1,5 +1,6 @@
 import json
 from playwright.sync_api import sync_playwright
+from bs4 import BeautifulSoup
 
 def scrape_burnsville_signs():
     url = "https://burnsville.municipalcodeonline.com/book?type=ordinances#name=CHAPTER_10-30_SIGNS"
@@ -8,22 +9,20 @@ def scrape_burnsville_signs():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
-        page.wait_for_timeout(8000)  # Give time for JS to fully render
+        page.wait_for_timeout(5000)
 
-        # Extract the visible text from all ordinance sections
-        sections = page.locator("div.section")
-        count = sections.count()
+        html = page.content()
+        soup = BeautifulSoup(html, "html.parser")
 
         zoning_data = {}
+        sections = soup.find_all("div", class_="section")
 
-        for i in range(count):
-            section = sections.nth(i)
-            try:
-                title = section.locator("h3").inner_text()
-                content = section.inner_text()
-                zoning_data[title.strip()] = content.strip()
-            except:
-                continue  # Skip sections without an h3 or visible content
+        for section in sections:
+            header = section.find("h3")
+            if header:
+                heading = header.get_text(strip=True)
+                content = section.get_text(separator="\n", strip=True)
+                zoning_data[heading] = content
 
         result = {
             "burnsville": {
@@ -33,24 +32,10 @@ def scrape_burnsville_signs():
             }
         }
 
-        # Save local output
         with open("burnsville.json", "w") as f:
             json.dump(result, f, indent=2)
 
-        # Update combined file
-        try:
-            with open("zoning_combined.json", "r") as f:
-                combined = json.load(f)
-        except FileNotFoundError:
-            combined = {}
-
-        combined["burnsville"] = result["burnsville"]
-
-        with open("zoning_combined.json", "w") as f:
-            json.dump(combined, f, indent=2)
-
-        print("✅ Final Burnsville data captured and saved.")
-
+        print("✅ OLD WORKING Burnsville scraper finished.")
         browser.close()
 
 if __name__ == "__main__":
