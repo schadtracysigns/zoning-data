@@ -1,23 +1,38 @@
-{
-  "Burnsville": {
-    "55306": {
-      "General Sign Ordinance": {}
+[
+  {
+    "city": "Burnsville",
+    "zoning_link": "https://www.burnsvillemn.gov/1900/Sign-Regulations",
+    "zones": {
+      "Commercial": {
+        "Pylon": {
+          "max_height": "30 feet",
+          "max_area": "100 sq ft per face",
+          "illumination": "Internal or external allowed",
+          "permit_required": "Yes",
+          "letter_depth": "Optional",
+          "cabinet_signs_allowed": "Allowed",
+          "painted_signs": "Not allowed",
+          "location_restriction": "Only one per parcel unless variance approved"
+        }
+      }
     }
   },
-  "Rochester": {
-    "55901": {
+  {
+    "city": "Rochester",
+    "zoning_link": "https://www.rochestermn.gov/",
+    "zones": {
       "Retail": {
         "Channel Letters": {
-          "max_height": "32 inches",
-          "max_area": "20% of wall face",
-          "illumination": "Allowed with conditions",
+          "max_height": "36 inches",
+          "max_area": "20% of storefront",
+          "illumination": "Allowed",
           "permit_required": "Yes",
-          "letter_depth": "1 inch",
+          "letter_depth": "Optional",
           "cabinet_signs_allowed": "Yes",
           "painted_signs": "No",
-          "location_restriction": "On tenant's wall"
+          "location_restriction": "Storefront mounting only"
         }
       }
     }
   }
-}
+]
