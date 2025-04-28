@@ -14,4 +14,7 @@ def merge_json_files(output_file, input_files):
         json.dump(combined_data, f, indent=2)
 
 if __name__ == "__main__":
-    merge_json_files("zoning_combined.json", ["burnsville.json", "rochester.json"])
+    merge_json_files(
+        "zoning_combined.json",
+        ["burnsville.json", "rochester.json"]
+    )
