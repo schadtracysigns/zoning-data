@@ -25,7 +25,8 @@ jobs:
 
 
       - name: Run Rochester scraper
-        run: python scripts/update_rochester.py
+        run: python scripts/scrape_rochester.py
+
 
       - name: Commit and push if changes
         run: |
