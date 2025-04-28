@@ -138,4 +138,4 @@ def scrape_burnsville():
         json.dump(zoning_data, f, indent=2)
 
 if __name__ == "__main__":
-    scrape_burnsville()
+    scrape_burnsville()\
