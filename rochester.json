@@ -1,38 +1,4 @@
 {
-  "rochester": {
-    "55901": {
-      "Retail": {
-        "Channel Letters": {
-          "max_height": "32 inches",
-          "max_area": "20% of wall face",
-          "illumination": "Allowed with conditions",
-          "permit_required": "Yes",
-          "letter_depth": "1 inch",
-          "cabinet_signs_allowed": "Yes",
-          "painted_signs": "No",
-          "location_restriction": "On tenant's wall"
-        },
-        "Monument": {
-          "max_height": "6 feet",
-          "max_area": "64 sq ft",
-          "illumination": "Internal or external",
-          "permit_required": "Yes",
-          "letter_depth": "Optional",
-          "cabinet_signs_allowed": "Yes",
-          "painted_signs": "Allowed",
-          "location_restriction": "Front yard near entrance"
-        },
-        "Pylon": {
-          "max_height": "20 feet",
-          "max_area": "100 sq ft",
-          "illumination": "Internal only",
-          "permit_required": "Yes",
-          "letter_depth": "Optional",
-          "cabinet_signs_allowed": "Yes",
-          "painted_signs": "No",
-          "location_restriction": "One per lot"
-        }
-      }
-    }
-  }
+  "city": "Rochester",
+  "rules": []
 }
